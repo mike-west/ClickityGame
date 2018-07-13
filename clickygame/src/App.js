@@ -1,18 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ImageCard from "./components/ImageCard";
+import images from "./images.json";
 import './App.css';
 
 class App extends Component {
+  state = {
+    images,
+    choices : [],
+    duplicate: false
+  };
+
+  recordImg = id => {
+    if (id in this.state.choices) {
+      this.setState({duplicate: true});
+      // render will deal with this
+    } else {
+      const choices = this.state.choices.push(id);
+      this.setState({choices})
+    }
+  };
+
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to the Clickity Game!</h1>
+          <h3 classname="App-description">Keep clicking on images, but don't click on the same one more than once!</h3>
         </header>
-        <p className="App-intro">
+        {/* <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        </p> */}
+        {this.state.images.map(image => {
+          return (
+            <ImageCard
+              image = {image.image}
+              id = {image.id}
+            />
+          );
+        })}
       </div>
     );
   }
